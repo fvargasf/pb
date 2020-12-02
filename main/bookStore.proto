@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package bytesT;
+
+service LibraryService{
+    rpc UploadBook (stream UploadBookRequest) returns (UploadBookResponse) {}
+    rpc DistributeBook (DistributeBookRequest) returns (DistributeBookResponse) {}
+    rpc RicartNAgrawala(stream RnARequest) returns (RnAResponse) {}
+    rpc LogMod(LogRequest) returns (LogResponse) {}
+    rpc GetChunkLoc(GetChunkLocRequest) returns (GetChunkLocResponse) {}
+    rpc GetChunk(GetChunkRequest) returns (GetChunkResponse) {}
+
+}
+
+message UploadBookRequest {
+    bytes fileChunk = 1;
+    string bookName = 2;
+    string proposalType = 3;
+    uint64 bookSize = 4;
+    uint64 nPart = 5;
+    uint64 aPart = 6;
+}
+
+message DistributeBookRequest {
+    bytes fileChunk = 1;
+    string chunkName = 2;
+}
+
+message RnARequest {
+    string T = 1;
+    string state = 2;
+    optional bytes fileChunk = 3;
+    optional string chunkName = 4;
+}
+
+message LogRequest{
+    string bookName = 1;
+    int64 nPart = 2;
+    repeated string partPos = 3;
+}
+
+message GetChunkLocRequest{
+    string bookName = 1;
+}
+
+message GetChunkRequest{
+    string chunkName = 1;
+}
+
+
+message UploadBookResponse{
+    uint32 size = 1;
+}
+
+message DistributeBookResponse{
+    string state = 1;
+}
+
+message RnAResponse{
+    string alive = 1;
+    optional string state = 2;
+
+}
+
+message LogResponse{
+    string response = 1;
+}
+
+message GetChunkLocResponse{
+    repeated string location = 1;
+}
+
+message GetChunkResponse{
+    bytes fileChunk = 1;
+}
